@@ -3,7 +3,7 @@ let swpm = document.querySelector("#w");
 let sacc = document.querySelector("#acc");
 let serr = document.querySelector("#err");
 let endshow = document.querySelector("#done");
-let maxspeed=document.querySelector("#maxs");
+let maxspeed = document.querySelector("#maxs");
 let gen1 = document.querySelector("#startbtn");
 let para1 = document.querySelector("#maintext");
 let bar = document.querySelector("#setnum");
@@ -15,8 +15,9 @@ let n = 0;
 let errors = 0;
 let wpm = 0;
 let correctcount = 0;
-const wordBank = [
-  "the","and","you","that","was","for","are","with","his","they",
+let totalTyped = 0;  
+
+const wordBank = ["the","and","you","that","was","for","are","with","his","they",
   "this","have","from","one","had","word","but","not","what","all",
   "were","when","your","can","said","there","use","each","which",
   "she","do","how","their","if","will","up","other","about","out",
@@ -59,10 +60,7 @@ const wordBank = [
   "ever","piece","told","usually","friends",
   "easy","heard","order","red","door",
   "sure","become","top","ship","across",
-  "today","during","short","better","best"
-];
-
-
+  "today","during","short","better","best"];
 
 val.innerText = bar.value;
 n = parseInt(bar.value);
@@ -71,8 +69,6 @@ bar.addEventListener("input", () => {
     val.innerText = bar.value;
     n = parseInt(bar.value);
 });
-
-
 
 function generateText(n) {
     let text = "";
@@ -83,8 +79,6 @@ function generateText(n) {
     return text.trim();
 }
 
-
-
 gen1.addEventListener("click", () => {
 
     let scent = generateText(n);
@@ -93,6 +87,7 @@ gen1.addEventListener("click", () => {
     i = 0;
     correctcount = 0;
     errors = 0;
+    totalTyped = 0; 
 
     scent.split("").forEach(letter => {
         let span = document.createElement("span");
@@ -102,7 +97,6 @@ gen1.addEventListener("click", () => {
 
     spans = para1.querySelectorAll("span");
 });
-
 
 let startTime;
 let start = false;
@@ -127,6 +121,8 @@ document.addEventListener("keydown", (event) => {
         start = true;
     }
 
+    totalTyped++; 
+
     if (event.key.toLowerCase() === spans[i].innerText.toLowerCase()) {
         spans[i].classList.add("correct");
         correctcount++;
@@ -143,21 +139,21 @@ document.addEventListener("keydown", (event) => {
         let min = seconds / 60;
 
         wpm = (correctcount / 5) / min;
+
         let currentMax = parseFloat(maxspeed.innerText) || 0;
         let speed = Math.max(currentMax, wpm);
         maxspeed.innerText = `Top Speed: ${Math.round(speed)}`;
+
         pop(wpm, errors);
     }
 });
-
-
 
 function pop(wpm, errors) {
 
     swpm.innerText = `WPM: ${Math.round(wpm)}`;
     serr.innerText = `Errors: ${errors}`;
 
-    let accuracy = ((correctcount / i) * 100).toFixed(1);
+    let accuracy = ((correctcount / totalTyped) * 100).toFixed(1); 
     sacc.innerText = `Accuracy: ${accuracy}%`;
 
     popup.classList.add("show");
