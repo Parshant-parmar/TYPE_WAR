@@ -36,15 +36,5 @@ Type War is a minimal typing speed test web app that measures your **WPM (Words 
    - Time taken
 4. When the text ends, the result card appears.
 
-## 📂 Project Structure
-
-```
-type-war
-│
-├── index.html
-├── classic.html
-├── style.css
-├── first.js
-```
 
 Built as a frontend project to practice **JavaScript logic and DOM manipulation**.
